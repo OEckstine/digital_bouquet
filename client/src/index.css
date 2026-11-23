@@ -1,0 +1,380 @@
+@import url("https://fonts.googleapis.com/css2?family=Jacquard+24&family=Jacquarda+Bastarda+9&display=swap");
+
+:root {
+  --cream: #fffbec;
+  --ink: #111111;
+  --font-display: "Jacquard 24", serif;
+  --font-text: "Jacquarda Bastarda 9", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-text);
+  -webkit-font-smoothing: none;
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* nav */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  font-size: 28px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-link:hover,
+.nav-link.active,
+.nav-logo:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+/* shared page */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page.center {
+  align-items: center;
+  text-align: center;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 1;
+  margin: 0;
+}
+
+.page-sub {
+  font-size: 24px;
+  margin: 0;
+}
+
+.text-btn {
+  font-size: 26px;
+  align-self: flex-start;
+}
+
+.page.center .text-btn {
+  align-self: center;
+}
+
+.text-btn:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.hint {
+  font-size: 18px;
+  margin: 8px 0 0;
+  opacity: 0.6;
+}
+
+/* home */
+.home {
+  display: flex;
+  justify-content: center;
+}
+
+.ring {
+  position: relative;
+  width: min(1000px, 95vw);
+  height: min(820px, 85vh);
+}
+
+.ring-flower {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s;
+}
+
+.ring-flower:hover {
+  transform: translate(-50%, -50%) scale(1.1) rotate(-6deg);
+}
+
+.ring-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-title {
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: clamp(64px, 10vw, 128px);
+  line-height: 1;
+  margin: 0;
+}
+
+.home-title span {
+  display: block;
+}
+
+.home-title .indent {
+  padding-left: 1.3em;
+}
+
+.home-start {
+  align-self: center;
+  margin-top: 16px;
+}
+
+/* forms (build / collab before joining) */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 420px;
+  margin-top: 16px;
+  font-size: 24px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form input,
+.card-note {
+  font-family: inherit;
+  font-size: 22px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--ink);
+  padding: 6px 2px;
+  outline: none;
+}
+
+/* build editor */
+.editor {
+  display: grid;
+  grid-template-columns: 220px auto 260px;
+  gap: 32px;
+  align-items: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section-label {
+  font-size: 26px;
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+
+.picker {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.picker-btn img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  transition: transform 0.15s;
+}
+
+.picker-btn:hover img {
+  transform: scale(1.1) rotate(-6deg);
+}
+
+/* the shared canvas */
+.bouquet {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  border: 2px dashed var(--ink);
+}
+
+.bouquet.read-only {
+  border-style: solid;
+}
+
+.flower {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  outline: 2px dashed transparent;
+  outline-offset: 2px;
+}
+
+.flower:active {
+  cursor: grabbing;
+}
+
+.flower.locked {
+  cursor: not-allowed;
+}
+
+.bouquet.read-only .flower {
+  cursor: default;
+}
+
+.flower img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.holder-name {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.cursor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.cursor-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.cursor-name {
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* people card */
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.user-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+}
+
+.card-note {
+  width: 100%;
+  border: 2px solid var(--ink);
+  padding: 10px;
+  resize: vertical;
+}
+
+.typing {
+  min-height: 1.2em;
+  font-size: 18px;
+  margin: 6px 0 0;
+}
+
+.card-display {
+  font-size: 26px;
+  max-width: 600px;
+  white-space: pre-wrap;
+}
+
+/* garden */
+.garden {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 32px;
+  margin-top: 16px;
+}
+
+.garden-item {
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+}
+
+.garden-item img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  transition: transform 0.2s;
+}
+
+.garden-item img:hover {
+  transform: scale(1.08) rotate(-6deg);
+}
+
+/* small screens */
+@media (max-width: 1000px) {
+  .editor {
+    grid-template-columns: 1fr;
+  }
+  .picker {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  .picker-btn img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav {
+    font-size: 20px;
+  }
+  .nav-links {
+    gap: 16px;
+  }
+  .ring-flower {
+    width: 80px;
+    height: 80px;
+  }
+}
