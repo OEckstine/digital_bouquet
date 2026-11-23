@@ -2,38 +2,38 @@ import { useState } from "react";
 
 const makeCode = () => Math.random().toString(36).slice(2, 7);
 
-export default function Lobby({ initialRoom, onJoin }) {
+export default function Lobby({ mode, initialRoom, onJoin }) {
   const [name, setName] = useState("");
   const [code, setCode] = useState(initialRoom || "");
 
-  const join = (roomCode) => {
-    if (!name.trim() || !roomCode.trim()) return;
-    onJoin(roomCode.trim().toLowerCase(), name.trim());
+  const submit = (e) => {
+    e.preventDefault();
+    const room = mode === "new" ? makeCode() : code.trim().toLowerCase();
+    if (!name.trim() || !room) return;
+    onJoin(room, name.trim());
   };
 
   return (
-    <div>
-      <h1>Digital Bouquet</h1>
-      <label>
-        Your name
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
-
-      {initialRoom ? (
-        <button onClick={() => join(initialRoom)}>Join bouquet {initialRoom}</button>
-      ) : (
-        <>
-          <button onClick={() => join(makeCode())}>Start a new bouquet</button>
-          <div>
-            <input
-              placeholder="Room code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-            />
-            <button onClick={() => join(code)}>Join</button>
-          </div>
-        </>
-      )}
-    </div>
+    <main className="page">
+      <h1 className="page-title">{mode === "new" ? "Build" : "Collab"}</h1>
+      <p className="page-sub">
+        {mode === "new" ? "Start a new bouquet." : "Join a friend's bouquet with their room code."}
+      </p>
+      <form className="form" onSubmit={submit}>
+        <label>
+          Your name
+          <input value={name} onChange={(e) => setName(e.target.value)} />
+        </label>
+        {mode === "join" && (
+          <label>
+            Room code
+            <input value={code} onChange={(e) => setCode(e.target.value)} />
+          </label>
+        )}
+        <button type="submit" className="text-btn">
+          {mode === "new" ? "Start building" : "Join bouquet"}
+        </button>
+      </form>
+    </main>
   );
 }
